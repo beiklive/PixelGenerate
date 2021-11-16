@@ -1,4 +1,56 @@
 <RCC>
-    <qresource prefix="PixelGenerate">
+    <qresource prefix="/">
+        <file>img/check_white.png</file>
+        <file>img/check_blue.png</file>
+        <file>img/check_green.png</file>
+        <file>img/check_orange.png</file>
+        <file>img/checked_blue.png</file>
+        <file>img/checked_green.png</file>
+        <file>img/checked_orange.png</file>
+        <file>img/checked_white.png</file>
+        <file>img/down_orange.png</file>
+        <file>img/down_white.png</file>
+        <file>img/down_blue.png</file>
+        <file>img/down2_blue.png</file>
+        <file>img/down2_orange.png</file>
+        <file>img/down2_white.png</file>
+        <file>img/up_blue.png</file>
+        <file>img/up_orange.png</file>
+        <file>img/up_white.png</file>
+        <file>img/up2_blue.png</file>
+        <file>img/up2_orange.png</file>
+        <file>img/up2_white.png</file>
+        <file>img/left2_blue.png</file>
+        <file>img/left2_orange.png</file>
+        <file>img/left2_white.png</file>
+        <file>img/right2_blue.png</file>
+        <file>img/right2_orange.png</file>
+        <file>img/right2_white.png</file>
+        <file>img/left_blue.png</file>
+        <file>img/left_green.png</file>
+        <file>img/left_orange.png</file>
+        <file>img/left_white.png</file>
+        <file>img/right_blue.png</file>
+        <file>img/right_green.png</file>
+        <file>img/right_orange.png</file>
+        <file>img/right_white.png</file>
+        <file>img/left3_blue.png</file>
+        <file>img/left3_green.png</file>
+        <file>img/left3_orange.png</file>
+        <file>img/left3_white.png</file>
+        <file>img/right3_blue.png</file>
+        <file>img/right3_green.png</file>
+        <file>img/right3_orange.png</file>
+        <file>img/right3_white.png</file>
+        <file>img/close_gray.png</file>
+        <file>img/close_red.png</file>
+        <file>img/max_gray.png</file>
+        <file>img/max_orange.png</file>
+        <file>img/min_gray.png</file>
+        <file>img/min_orange.png</file>
+        <file>img/normal_gray.png</file>
+        <file>img/normal_orange.png</file>
+        <file>img/set_gray.png</file>
+        <file>img/set_orange.png</file>
     </qresource>
 </RCC>

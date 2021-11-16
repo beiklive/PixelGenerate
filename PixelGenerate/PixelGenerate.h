@@ -26,6 +26,9 @@ private:
 	Ui::PixelGenerateClass ui;
 	PixelMatrixQueue queue{ 1 ,PixelMatrix{ 1, QVector<QColor>(1, Qt::black) } };
 
+	QString ImageFormat = "JPG";
+	int preIndex = 0;
+	int nextIndex = 0;
 public slots:
 	void DoClear();
 	void ChangeLeft();
@@ -35,4 +38,5 @@ public slots:
 	void ChangeStep(int step);
 	void LoadLocalIamge();
 	void ChangeCurImage(int);
+	void SaveMap();
 };

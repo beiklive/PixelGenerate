@@ -14,6 +14,7 @@ PixelGenerate::PixelGenerate(QWidget *parent)
 	connect(ui.LColor, SIGNAL(clicked()), this, SLOT(ChangeLeft()));
 	connect(ui.RColor, SIGNAL(clicked()), this, SLOT(ChangeRight()));
 	connect(ui.LoadImage, SIGNAL(clicked()), this, SLOT(LoadLocalIamge()));
+	connect(ui.SaveAsFile, SIGNAL(clicked()), this, SLOT(SaveMap()));
 }
 
 
@@ -69,6 +70,7 @@ void PixelGenerate::ChangeLeft() {
 
 		QString rgb = QString::number(R) + "," + QString::number(G) + "," + QString::number(B);
 		ui.LColor->setStyleSheet("background-color:rgb(" + rgb + ");");
+		 
 		ui.pixmap->SetLeftColor(getcolor);
 	}
 	
@@ -94,6 +96,7 @@ void PixelGenerate::LoadLocalIamge() {
 		QString suffix = list[list.size() - 1].toLower();
 		if (suffix == "gif")
 		{
+			ImageFormat = "GIF";
 			QMovie movie(filePath);
 			int frameCount = movie.frameCount();
 			movie.jumpToFrame(0);
@@ -114,12 +117,14 @@ void PixelGenerate::LoadLocalIamge() {
 					}
 				}
 			}
+			preIndex = 0;
 			ui.pixmap->LoadColorMap(queue[0]);
 			ui.CurImage->setMaximum(frameCount - 1);
 			ui.CurImage->setValue(0);
 			ui.SumImage->setText(QString("Total:") + QString::number(frameCount));
 		}
 		else {
+			ImageFormat = "JPG";
 			QPixmap pixmap(filePath);
 			QImage image = pixmap.toImage();
 			int width = ui.pixmap->GetWidth() < image.width() ? ui.pixmap->GetWidth(): image.width();
@@ -141,5 +146,21 @@ void PixelGenerate::LoadLocalIamge() {
 
 
 void PixelGenerate::ChangeCurImage(int index) {
-	ui.pixmap->LoadColorMap(queue[index]);
+	//读取画布信息
+	preIndex = nextIndex;
+	nextIndex = index;
+	auto getmap = ui.pixmap->GetMap();
+	for (int y = 0; y < queue[0][0].size(); y++) {
+		for (int x = 0; x < queue[0].size(); x++) {
+			queue[preIndex][x][y] = getmap[x][y];
+		}
+	}
+	//让画布显示下一个
+	ui.pixmap->LoadColorMap(queue[nextIndex]);
+}
+
+
+void PixelGenerate::SaveMap() {
+	//图片信息收集
+
 }
