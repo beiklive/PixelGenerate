@@ -6,6 +6,7 @@ PixelGenerate::PixelGenerate(QWidget *parent)
     ui.setupUi(this);
 	ui.LColor->setStyleSheet("background-color:rgb(255,0,0);");
 	ui.RColor->setStyleSheet("background-color:rgb(0,0,0);");
+	ui.CurImage->setDisabled(true);
 	connect(ui.width_box, SIGNAL(valueChanged(int)), this, SLOT(ChangeWidth(int)));
 	connect(ui.height_box, SIGNAL(valueChanged(int)), this, SLOT(ChangeHeight(int)));
 	connect(ui.step_box, SIGNAL(valueChanged(int)), this, SLOT(ChangeStep(int)));
@@ -118,6 +119,7 @@ void PixelGenerate::LoadLocalIamge() {
 				}
 			}
 			preIndex = 0;
+			ui.CurImage->setEnabled(true);
 			ui.pixmap->LoadColorMap(queue[0]);
 			ui.CurImage->setMaximum(frameCount - 1);
 			ui.CurImage->setValue(0);
@@ -129,7 +131,7 @@ void PixelGenerate::LoadLocalIamge() {
 			QImage image = pixmap.toImage();
 			int width = ui.pixmap->GetWidth() < image.width() ? ui.pixmap->GetWidth(): image.width();
 			int height = ui.pixmap->GetHeight() < image.height() ? ui.pixmap->GetHeight() : image.height();
-
+			ui.CurImage->setDisabled(true);
 			map = PixelMatrix{ width, QVector<QColor>(height, Qt::black) };
 			{
 				for (int y = 0; y < height; y++) {
@@ -158,20 +160,7 @@ void PixelGenerate::ChangeCurImage(int index) {
 	//让画布显示下一个
 	ui.pixmap->LoadColorMap(queue[nextIndex]);
 }
-/*
-  "version":20211015,
-  "logic_width":16,
-  "logic_height":16,
-  "frame_count":36,
-  "frames":[
-	{
-	  "duration":50,
-	  "width":16,
-	  "height":16,
-	  "image":[
 
-
-*/
 
 void PixelGenerate::SaveMap() {
 	QString fileName = QFileDialog::getSaveFileName(this, tr("SavePixelImage"), "", tr("pixel(*.lgaif)"));
