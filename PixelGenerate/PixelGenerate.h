@@ -17,8 +17,9 @@ class PixelGenerate : public QMainWindow
     Q_OBJECT
 
 public:
+
     PixelGenerate(QWidget *parent = Q_NULLPTR);
-	//void SetMap(Pixmap *map);
+
 protected:
 
 private:
