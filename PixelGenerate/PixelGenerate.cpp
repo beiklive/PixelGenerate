@@ -130,7 +130,7 @@ void PixelGenerate::LoadLocalIamge() {
 			int width = ui.pixmap->GetWidth() < image.width() ? ui.pixmap->GetWidth(): image.width();
 			int height = ui.pixmap->GetHeight() < image.height() ? ui.pixmap->GetHeight() : image.height();
 
-			PixelMatrix map{ width, QVector<QColor>(height, Qt::black) };
+			map = PixelMatrix{ width, QVector<QColor>(height, Qt::black) };
 			{
 				for (int y = 0; y < height; y++) {
 					for (int x = 0; x < width; x++) {
@@ -158,9 +158,138 @@ void PixelGenerate::ChangeCurImage(int index) {
 	//让画布显示下一个
 	ui.pixmap->LoadColorMap(queue[nextIndex]);
 }
+/*
+  "version":20211015,
+  "logic_width":16,
+  "logic_height":16,
+  "frame_count":36,
+  "frames":[
+	{
+	  "duration":50,
+	  "width":16,
+	  "height":16,
+	  "image":[
 
+
+*/
 
 void PixelGenerate::SaveMap() {
-	//图片信息收集
+	QString fileName = QFileDialog::getSaveFileName(this, tr("SavePixelImage"), "", tr("pixel(*.lgaif)"));
 
+	//图片信息收集
+	QString Msg = "{\n";
+	QDateTime current_date_time = QDateTime::currentDateTime();
+	QString current_date = current_date_time.toString("yyyyMMdd");
+	Msg += "\"version\":" + current_date + ",\n";
+	if (ImageFormat == "JPG")
+	{
+		Msg += "\"logic_width\":" + QString::number(map.size()) + ",\n";
+		Msg += "\"logic_height\":" + QString::number(map[0].size()) + ",\n";
+		Msg += "\"frame_count\":" + QString::number(1) + ",\n";
+		Msg += "\"frames\":[\n";
+
+		Msg += "\t{\n";
+		Msg += "\t\t\"duration\":" + QString::number(50) + ",\n";
+		Msg += "\t\t\"width\":" + QString::number(map.size()) + ",\n";
+		Msg += "\t\t\"height\":" + QString::number(map[0].size()) + ",\n";
+		Msg += "\t\t\"image\":[\n";
+
+		//开始读取图片
+		for (int x = 0; x < map.size(); ++x)
+		{
+			Msg += "\t\t\t[";
+			for (int y = 0; y < map[0].size(); ++y)
+			{
+				QColor t = map[x][y];
+				auto R = t.red();
+				auto G = t.green();
+				auto B = t.blue();
+
+				QString rgb = "[" + QString::number(R) + "," + QString::number(G) + "," + QString::number(B) + "]";
+
+				Msg += rgb;
+				if (y < map[0].size() - 1)
+				{
+					Msg += ",";
+				}
+			}
+			Msg += "]";
+			if (x < map.size() - 1)
+			{
+				Msg += ",\n";
+			}
+			else {
+				Msg += "\n";
+			}
+		}
+		Msg += "\t\t]\n";
+		Msg += "\t}\n";
+
+
+
+		Msg += "]\n";
+	}
+	if (ImageFormat == "GIF")
+	{
+		Msg += "\"logic_width\":" + QString::number(queue[0].size()) + ",\n";
+		Msg += "\"logic_height\":" + QString::number(queue[0][0].size()) + ",\n";
+		Msg += "\"frame_count\":" + QString::number(queue.size()) + ",\n";
+		Msg += "\"frames\":[\n";
+
+
+		for (int z = 0; z < queue.size(); ++z)
+		{
+			Msg += "\t{\n";
+			Msg += "\t\t\"duration\":" + QString::number(50) + ",\n";
+			Msg += "\t\t\"width\":" + QString::number(queue[0].size()) + ",\n";
+			Msg += "\t\t\"height\":" + QString::number(queue[0][0].size()) + ",\n";
+			Msg += "\t\t\"image\":[\n";
+
+			//开始读取图片
+			for (int x = 0; x < queue[0].size(); ++x)
+			{
+				Msg += "\t\t\t[";
+				for (int y = 0; y < queue[0][0].size(); ++y)
+				{
+					QColor t = queue[z][x][y];
+					auto R = t.red();
+					auto G = t.green();
+					auto B = t.blue();
+					QString rgb = "[" + QString::number(R) + "," + QString::number(G) + "," + QString::number(B) + "]";
+					Msg += rgb;
+
+					if (y < queue[0][0].size() - 1)
+					{
+						Msg += ",";
+					}
+				}
+				Msg += "]";
+				if (x < queue[0].size() - 1)
+				{
+					Msg += ",\n";
+				}
+				else {
+					Msg += "\n";
+				}
+			}
+			Msg += "\t\t]\n";
+			Msg += "\t}";
+			if (z < queue.size() - 1)
+			{
+				Msg += ",\n";
+			}
+			else {
+				Msg += "\n";
+			}
+		}
+		Msg += "]\n";
+	}
+	Msg += "}";
+
+
+
+	QFile file(fileName);
+	file.open(QIODevice::WriteOnly | QIODevice::Text);
+	file.write(Msg.toUtf8());
+	file.close();
 }
